@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"></script>
+    <script src="https://cdn.bootcdn.net/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/5.1.1/css/bootstrap.min.css">
+    <script src="https://cdn.staticfile.org/popper.js/2.9.3/umd/popper.min.js"></script>
+    <script src="https://cdn.staticfile.org/twitter-bootstrap/5.1.1/js/bootstrap.min.js"></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <link rel="stylesheet" href="[[url_for('static', filename='css/common.css')]]">
+    <title>Spirits UI</title>
+    <style>
+        .infoBox {
+            margin-bottom: 2ch;
+        }
+    </style>
+    <script src="[[url_for('static', filename='js/device.js')]]"></script>
+</head>
+<body>
+    {% include "header.html" %}
+    <div id="content" class="container" style="margin-top: 5ch;">
+        <div class="col-8 offset-2">
+            <div class="card infoBox">
+                <h5 class="card-header text-center">
+                        Device Status
+                </h5>
+                <div class="card-body">
+                    <div id="activateSuccessBox">
+                        <div class="card-title row">
+                            <div class="col text-end">UUID :</div>
+                            <div class="col text-start" id="deviceID"></div>
+                        </div>
+                        <div class="card-title row">
+                            <div class="col text-end">Status :</div>
+                            <div class="col text-start" id="deviceStatus"></div>
+                        </div>
+                        <div class="card-title row">
+                            <div class="col text-end">Battery :</div>
+                            <div class="col text-start"><span id="batteryVal"></span>%
+                            </div>
+                        </div>
+                        <div class="card-title row">
+                            <div class="col text-end">Charging :</div>
+                            <div class="col text-start" id="chargingStatus"></div>
+                        </div>
+                        <div class="card-title row">
+                            <div class="col text-end">Algorithm :</div>
+                            <div class="col text-start" id="currentAlgorithm"></div>
+                        </div>
+                        <div class="card-title row">
+                            <div class="col text-end">Prediction :</div>
+                            <div class="col text-start" id="predictedPose"></div>
+                        </div>
+                    </div>
+                    <div id="activateFailedBox" class="text-center">
+                        <h2>
+                            Device Not Activated Yet
+                        </h2>
+                    </div>
+                    <div class="row">
+                        <div class="col-3 offset-2 text-center">
+                            <button class="btn btn-outline-primary" id="activateBtn" style="width: 150px;" onclick="activateDevice()" title="Before you can do any operation, you should first click the activate button to activate the whole interface. Once the interface is activated, device status will be shown in the device interface, such as battery, charging, etc. If the interface isn’t activated, all the other buttons can’t be used." >Activate</button>
+                        </div>
+                        <div class="col-2"></div>
+                        <div class="col-3 text-center">
+                            <button class="btn btn-outline-danger" id="deactivateBtn" style="width: 150px;" onclick="deactivateDevice()" title="When you don’t need to use the interface, just click the deactivate button to deactivate the interface. When you need to use it again, click the activate button first.">Deactivate</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card infoBox">
+                <h5 class="card-header text-center">
+                        Email Information
+                </h5>
+                <div class="card-body">
+                    <div class="card-title row">
+                        <div class="col text-end">Current Email :</div>
+                        <div class="col text-start" id="curEmail">Null</div>
+                    </div>
+                    <div class="row">
+                        <div class="col-3 offset-2 text-center">
+                            <button class="btn btn-outline-success" style="width: 150px;" data-bs-toggle="modal" data-bs-target="#setEmailDialog" id="setEmailBtn" title="Click this button, then you can input your email address and submit it. This button is used to bind the device and an email address. Once the email is binded, you can see the current email.">Set Email</button>
+                        </div>
+                        <div class="col-2"></div>
+                        <div class="col-3 text-center">
+                            <button class="btn btn-outline-danger" id="unbindEmailBtn" style="width: 150px;" onclick="unbindEmail()" title="Click this button to unbind the current email.">Unbind Email</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card infoBox">
+                <h5 class="card-header text-center">
+                    Reset
+                </h5>
+                <div class="card-body">
+                    <div class="card-title row">
+                        <div class="col text-center">
+                            <button class="btn btn-danger" id="logoffBtn" title="Attention!! This operation will delete everything of the current device from the cloud. Please use this function carefully.">Log off</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+
+<div class="modal fade" id="setEmailDialog" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="staticBackdropLabel">Set Email</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" onclick="clearEmailDialog()"></button>
+            </div>
+            <div class="modal-body">
+                <label for="setEmailInput" class="form-label">Input email address</label>
+                <input type="email" class="form-control" id="setEmailInput" aria-describedby="emailHint">
+                <div id="emailHint" class="form-text"></div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" onclick="setEmail()">Submit</button>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" id="closeEmailDialogBtn" onclick="clearEmailDialog()">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script>
+    function onRefresh() {
+        if($.cookie("deviceStatus") === undefined) { //not activated yet
+            $("#activateSuccessBox").css("display", "none");
+            $("#activateFailedBox").css("display", "");
+            $("#activateBtn").attr("disabled", false);
+            $("#setEmailBtn").attr("disabled", true);
+            $("#unbindEmailBtn").attr("disabled", true);
+            $("#deactivateBtn").attr("disabled", true);
+            $("#logoffBtn").attr("disabled", true);
+        }else {
+            $("#activateSuccessBox").css("display", "");
+            $("#activateFailedBox").css("display", "none");
+            $("#activateBtn").attr("disabled", true);
+            $("#setEmailBtn").attr("disabled", false);
+            $("#unbindEmailBtn").attr("disabled", false);
+            $("#deactivateBtn").attr("disabled", false);
+            $("#logoffBtn").attr("disabled", false);
+            activateDevice();
+        }
+    }
+    onRefresh();
+
+
+    $("#logoffBtn").click(function () {
+        if(!confirm("Are you sure to log off? This operation is irreversible.")) {
+            return;
+        }
+        axios({
+            baseURL: 'https://cloud.tanghaotian.icu:8000',
+            url: '/api/timestamp',
+            method: "GET",
+        }).then(function (response) {
+            timestamp = response.data;
+            axios({
+                baseURL: 'http://119.51.227.115:8081',
+                url: '/ticket?ts=' + timestamp, 
+                method: "GET",
+            }).then(function (response) {
+                ticket = response.data; //get ticket
+                axios({ //reset cloud device info
+                    baseURL: 'https://cloud.tanghaotian.icu:8000',
+                    url: "/api/device/" + $.cookie("deviceID"),
+                    method: "DELETE",
+                    headers: {
+                        "Authorization": ticket, 
+                    },
+                }).then(response => { 
+                    alert("Successfully logged off");
+                }).catch(function(error) {
+                    alert("Exception while logging off");
+                });
+            }).catch(function(error) {
+                alert("Exception while getting ticket");
+            });
+        }).catch(function(error) {
+            alert("Exception while getting timestamp");
+        });
+    });
+</script>
+<script src="[[url_for('static', filename='js/menu.js')]]"></script>
+</html>

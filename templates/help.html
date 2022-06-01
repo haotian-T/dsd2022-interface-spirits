@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"></script>
+    <script src="https://cdn.bootcdn.net/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/5.1.1/css/bootstrap.min.css">
+    <script src="https://cdn.staticfile.org/popper.js/2.9.3/umd/popper.min.js"></script>
+    <script src="https://cdn.staticfile.org/twitter-bootstrap/5.1.1/js/bootstrap.min.js"></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <link rel="stylesheet" href="[[url_for('static', filename='css/common.css')]]">
+    <title>Spirits UI</title>
+    <style>
+    </style>
+</head>
+<body>
+    {% include "header.html" %}
+    <div id="content" class="container" style="margin-top: 8ch;">
+        <div class="col-8 offset-2">
+            <div class="mb-3">
+                <h4><b>What's the system?</b></h4>
+                <div>This system is for 2022 DSD Course.</div>
+            </div>
+
+            <div class="mb-3">
+                <h4><b>How to use the system?</b></h4>
+                <div><b>Device:</b> You can activate or deactivate device, read, set or clear email, and reset the device(i.e. delete all cloud information of the device) on this webpage.</div>
+                <div><b>Algorithm:</b> You can get current available models and their introduction, start to train the model, download base model, reset cloud model to base, delete all model on cloud, synchronize cloud model to device, download model from device, and delete model on device on this webpage.</div>
+                <div><b>Calibrate:</b> You can calibrate the model of the device on this webpage.</div>
+                <div><b>Help:</b> You can get some help of the system on this webpage.</div>
+                <div><b>Admin:</b> This is the entry for admin side of the system.</div>
+            </div>
+            
+            <div>
+                <h4><b>Guidelines?</b></h4>
+                <div>Just hover the mouse over the elements on the webpage and read the pop-up tooltips.</div>
+            </div>
+        </div>  
+    </div>
+</body>
+<script src="[[url_for('static', filename='js/menu.js')]]"></script>
+</html>
