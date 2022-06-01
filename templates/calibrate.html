@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"></script>
+    <script src="https://cdn.bootcdn.net/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/5.1.1/css/bootstrap.min.css">
+    <script src="https://cdn.staticfile.org/popper.js/2.9.3/umd/popper.min.js"></script>
+    <script src="https://cdn.staticfile.org/twitter-bootstrap/5.1.1/js/bootstrap.min.js"></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <link rel="stylesheet" href="[[url_for('static', filename='css/common.css')]]">
+    <title>Spirits UI</title>
+</head>
+<body>
+    {% include "header.html" %}
+    <div id="content" class="container" style="margin-top: 8ch;">
+        <div class="col-8 offset-2">
+            <div class="card">
+                <h5 class="card-header text-center">Calibration</h5>
+                <div id="activateSuccessBox">
+                    <div class="card-body">
+                        <div class="text-center row" style="margin-bottom: 15px;">
+                            <button class="btn btn-outline-success col offset-2" id="startCalibBtn" title="Click start button to start calibrating. There will be guideline information for users about how to act. Note that the calibrating process is a series motions and should be done at one go. Once the calibration data is collected, it will be uploaded to the cloud automatically.">Start</button>
+                            <div class="col-1"></div>
+                            <button class="btn btn-outline-warning col" id="stopCalibBtn" disabled title="When you have something else to do during the calibration and you can’t finish it at one go, you can click interrupt button to stop the calibration. And you need to restart the process in the next time.">Interrupt</button>
+                            <div class="col-1"></div>
+                            <button class="btn btn-outline-danger col" id="delCloudCalibBtn" title="Click this button and the calibration data uploaded to the cloud will be deleted. If the calibraion process has something wrong and the data is uploaded, use this button to clear it.">
+                                Clear Cloud <br>Calibration Data
+                            </button>
+                            <div class="col-1"></div>
+                        </div>
+                        <div id="calibrateGuide" style="display: none;">
+                            <div class="card-title row">
+                                <div class="col text-end">Current Motion :</div>
+                                <div class="col text-start" id="motionWrapper"></div>
+                            </div>
+                            <div class="card-title row">
+                                <div class="col text-end">Time Remain :</div>
+                                <div class="col text-start" id="timeWrapper"></div>
+                            </div>
+                            <div class="card-title row">
+                                <div class="col text-end">Guide :</div>
+                                <div class="col text-start" id="guideWrapper"></div>
+                            </div>
+                        </div>
+                        <div>
+                            <h2 class="text-center" id="calibrateNotStartInfo">Click Start Button to Start Calibrating</h2>
+                            <h2 class="text-center" id="calibrateFinishInfo" style="display: none;">Calibrating Finished</h2>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-body text-center" id="activateFailedBox">
+                    <h2>Device Not Activated Yet</h2>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+<script src="[[url_for('static', filename='js/calibrate.js')]]"></script>
+<script src="[[url_for('static', filename='js/menu.js')]]"></script>
+</html>

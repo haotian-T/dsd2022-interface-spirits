@@ -1,0 +1,89 @@
+body {
+    background-color: rgb(4, 24, 62);
+}
+#registerHeader {
+    margin-top: 3ch;
+    margin-bottom: 3ch;
+    text-align: center;
+    width: 100%;
+}
+#registerHeaderBox {
+    margin: 0;
+    padding: 2ch;
+    height: 100%;
+    width: 23em;
+    display: inline-block;
+}
+#logoRegisterHeader {
+    width: 8ch;
+    height: 8ch;
+}
+#hintRegisterHeader {
+    font-size: 2.5ch;
+}
+#hintRegisterHeader {
+    color: white;
+}
+
+
+#registerContainer {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    width: 100%;
+    text-align: center;
+}
+#registerBox {
+    margin: 0;
+    padding: 2ch;
+    height: 100%;
+    width: 23em;
+    display: inline-block;
+    border: 2px solid rgb(187, 187, 187);
+    border-radius: 12px;
+    box-shadow: 0px 5px 8px #9b9b9b;
+}
+.registerTextbox {
+    color: #00cfc8;
+    text-align: left;
+    margin-bottom: 1ch;
+}
+#captchaSentMsg {
+    font-size: 1.3ch;
+    color: white;
+}
+#registerSubmitBtn {
+    margin-top: 1ch;
+}
+#registerContinueBtn {
+    margin-top: 1ch;
+}
+
+#registerErrMsgContainer {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    width: 100%;
+    text-align: center;
+}
+#registerErrMsgBox {
+    margin: 0;
+    padding: 2ch;
+    height: 100%;
+    width: 23em;
+    text-align: start;
+    color:rgb(99, 117,151);
+    display: inline-block;
+}
+
+.form-control {
+    background-color: #0C162D;
+    color: white;
+}
+.form-control:focus {
+    background-color: #0C162D;
+    color: white;
+}
+.form-control:disabled {
+    background-color: #2d50a2;
+}

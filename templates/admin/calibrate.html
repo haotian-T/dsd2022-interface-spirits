@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"></script>
+    <script src="https://cdn.bootcdn.net/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/5.1.1/css/bootstrap.min.css">
+    <script src="https://cdn.staticfile.org/popper.js/2.9.3/umd/popper.min.js"></script>
+    <script src="https://cdn.staticfile.org/twitter-bootstrap/5.1.1/js/bootstrap.min.js"></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <link rel="stylesheet" href="[[url_for('static', filename='css/common.css')]]">
+    <title>Spirits UI</title>
+    <style>
+        .infoBox {
+            margin-bottom: 4ch;
+        }
+        .fileNameDiv{
+            color: gray; 
+            font-size: 15px; 
+            width: 100px; 
+            height: 35px;
+            display: inline-block; 
+            overflow: scroll;
+        }
+        ::-webkit-scrollbar {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    {% include "admin/header.html" %}
+    <div id="content" class="container" style="margin-top: 2ch;">
+        <div class="col-8 offset-2">
+            <div class="card infoBox">
+                <h5 class="card-header text-center">Designate UUID</h5>
+                <div class="card-body row">
+                    <div style="height: 30px"></div>
+                    <div class="col-4 text-end" style="margin-top: 6px;">
+                        Current UUID :
+                    </div>
+                    <div class="col-6 text-start">
+                        <input type="text" disabled class="form-control" id="designatedUUID">
+                    </div>
+                    <div class="col-2 text-center">
+                        <button id="uuidSwitchBtn" class="btn btn-outline-primary" style="width: 80px;">Unlock</button>
+                    </div>
+                    <div style="height: 30px"></div>
+                </div>
+            </div>
+
+            <div class="card infoBox">
+                <h5 class="card-header text-center">Calibration</h5>
+                <div id="activateSuccessBox">
+                    <div class="card-body">
+                        <div class="text-center row" style="margin-bottom: 15px;">
+                            <button class="btn btn-outline-success col offset-2" id="startCalibBtn" title="Click start button to start calibrating. There will be guideline information for users about how to act. Note that the calibrating process is a series motions and should be done at one go. Once the calibration data is collected, it will be uploaded to the cloud automatically.">Start</button>
+                            <div class="col-1"></div>
+                            <button class="btn btn-outline-warning col" id="stopCalibBtn" disabled title="When you have something else to do during the calibration and you can’t finish it at one go, you can click interrupt button to stop the calibration. And you need to restart the process in the next time.">Interrupt</button>
+                            <div class="col-1"></div>
+                            <button class="btn btn-outline-danger col" id="delCloudCalibBtn" title="Click this button and the calibration data uploaded to the cloud will be deleted. If the calibraion process has something wrong and the data is uploaded, use this button to clear it.">
+                                Clear Cloud <br>Calibration Data
+                            </button>
+                            <div class="col-1"></div>
+                        </div>
+                        <div id="calibrateGuide" style="display: none;">
+                            <div class="card-title row">
+                                <div class="col text-end">Current Motion :</div>
+                                <div class="col text-start" id="motionWrapper"></div>
+                            </div>
+                            <div class="card-title row">
+                                <div class="col text-end">Time Remain :</div>
+                                <div class="col text-start" id="timeWrapper"></div>
+                            </div>
+                            <div class="card-title row">
+                                <div class="col text-end">Guide :</div>
+                                <div class="col text-start" id="guideWrapper"></div>
+                            </div>
+                        </div>
+                        <div>
+                            <h2 class="text-center" id="calibrateNotStartInfo">Click Start Button to Start Calibrating</h2>
+                            <h2 class="text-center" id="calibrateFinishInfo" style="display: none;">Calibrating Finished</h2>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-body text-center" id="activateFailedBox">
+                    <h2>No UUID Now</h2>
+                </div>
+            </div>
+
+            <div class="card infoBox">
+                <h5 class="card-header text-center">Calibration Data Management</h5>
+                <div class="card-body" id="activateSuccessBox2">
+                    <div class="card-title row p-2">
+                        <div class="col text-center">
+                            <button class="btn btn-outline-primary btn-sm" id="downloadCalibDataBtn" title="Adminstrator can use this button to download calibration data from cloud to the local side.">Download Calibration Data from Cloud</button>
+                        </div>
+                    </div>
+
+                    <div class="row card-title border-bottom p-2 border-2" style="display: none;">
+                        <div class="col text-end" style="margin-top: 3px;">
+                            Choose Calibratin Data
+                        </div>
+                        <div class="col text-center">
+                            <button class="btn btn-secondary btn-sm" onclick="javascript:$('#calibDataInput').click()">Click to Select</button>
+                            <input type="file" class="form-control form-control-sm" id="calibDataInput" accept="application/x-gzip, application/x-tar" hidden>
+                        </div>
+                        <div class="col text-start fileNameDiv border" id="calibDataInputName" >
+                            None
+                        </div>
+                        <div class="col text-center">
+                            <button class="btn btn-outline-primary btn-sm" id="uploadCalibDataBtn" style="width: 140px;" title="Adminstrator can use this button to choose a local calibration data file and upload it to the cloud without collecting calibration data.">Upload Data</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-body text-center" id="activateFailedBox2">
+                    <h2>No UUID Now</h2>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+<script src="[[url_for('static', filename='js/admin/calibrate.js')]]"></script>
+<script src="[[url_for('static', filename='js/menu.js')]]"></script>
+</html>

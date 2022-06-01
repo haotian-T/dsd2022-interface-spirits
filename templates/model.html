@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"></script>
+    <script src="https://cdn.bootcdn.net/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/5.1.1/css/bootstrap.min.css">
+    <script src="https://cdn.staticfile.org/popper.js/2.9.3/umd/popper.min.js"></script>
+    <script src="https://cdn.staticfile.org/twitter-bootstrap/5.1.1/js/bootstrap.min.js"></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <link rel="stylesheet" href="[[url_for('static', filename='css/common.css')]]">
+    <title>Spirits UI</title>
+    <style>
+        .infoBox {
+            margin-bottom: 5ch;
+        }
+        ::-webkit-scrollbar {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    {% include "header.html" %}
+    <div id="content" class="container" style="margin-top: 8ch;">
+        <div class="col-8 offset-2">
+            <div class="card infoBox">
+                <h5 class="card-header text-center">Algorithm Operation</h5>
+                <div class="card-body" id="activateSuccessBox">
+                    <div style="margin-bottom: 10px;">
+                        <div class="card-title"><strong>Algorithm Selection</strong></div>
+                        <div class="card-text">
+                            <select class="form-select mb-3" id="algoList" title="Most of the operations in this interface are based on a specified algorithm, so please choose one algorithm first. Some algorithms have coresponding introduction for a better understanding."></select> <!--Algorithm Selection List-->              
+                        </div>
+                    </div>
+                    <div style="margin-bottom: 10px;">
+                        <div class="card-title"><strong>Algorithm Introduction</strong></div>
+                        <div class="card-text" id="algoIntro" style="height: 150px; overflow-y: scroll;"></div>
+                    </div>
+                    <div style="margin-bottom: 10px;">
+                        <div class="card-title"><strong>Algorithm Operation (Cloud Side)</strong></div>
+                        <div class="card-text row">
+                            <div class="col text-center">
+                                <button class="btn btn-outline-primary" style="width: 150px;" id="trainBtn" title="Click this button to train the device model of a specific algorithm with calbration data uploaded. If the previous training is not finished yet, it will be terminated first before new training starts. If the calibration data haven’t been collected or uploaded, the training can’t be performed. Click this button and the interface will first send a request to the server to check if the calibration data is available.">Train</button>
+                            </div>
+                            <div class="col text-center">
+                                <button class="btn btn-outline-dark" style="width: 150px;" id="downloadBaseAlgoBtn" title="This button is used to download a base model of the selected algorithm from the server.">D.L. Base Ver.</button>
+                            </div>
+                            <div class="col text-center">
+                                <button class="btn btn-outline-danger" style="width: 150px;" id="deleteCloudBtn" title="Click this button and the model of the selected algorithm on the cloud will be reset to the base model, which means all previously trained models will be overwritten. Use this button to recover a algorithm on the cloud if it is not satisfying.">Reset to Base</button>
+                            </div>
+                            <div class="col text-center">
+                                <button class="btn btn-outline-danger" style="width: 150px;" id="delAllDeviceModelBtn" title="This button is used to delete all device models from the cloud.">Reset All</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div style="margin-bottom: 10px;">
+                        <div class="card-title"><strong>Algorithm Operation (Device Side)</strong></div>
+                        <div class="card-text row">
+                            <div class="col text-center">
+                                <button class="btn btn-outline-primary" style="width: 150px;" id="syncBtn" title="This button is used to synchronize the local model of the selected algorithm with the cloud model. Firstly the latest model on the cloud will be downloaded and then this model will be uploaded to the local device.">Synchronize</button>
+                            </div>
+                            <div class="col text-center">
+                                <button class="btn btn-outline-dark" style="width: 150px;" id="downloadDeviceModelBtn" title="Click this button to download the current model the current algorithm from the device. This function is mainly used for debugging.">D.L. Device Ver.</button>
+                            </div>
+                            <div class="col text-center">
+                                <button class="btn btn-outline-danger" style="width: 150px;" id="delDeviceModelBtn" title="This button is used to delete local model from device. Note that the device has at most one model (a certain algorithm).">Del Device Ver.</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-body text-center" id="activateFailedBox">
+                    <h2>
+                        Device Not Activated Yet
+                    </h2>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+<script src="[[url_for('static', filename='js/model.js')]]"></script>
+<script src="[[url_for('static', filename='js/menu.js')]]"></script>
+</html>

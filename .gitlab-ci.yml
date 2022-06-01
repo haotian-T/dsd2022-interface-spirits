@@ -1,0 +1,5 @@
+job1:
+    script:
+        - apt install python3.7
+        - python --version
+        - python flaskMain.py

@@ -1,0 +1,41 @@
+#menu {
+    border-right: 3px solid #968787;
+    height: 100%;
+    position: fixed;
+    top: 0%;
+    z-index: 32767;
+}
+
+/*when the browser is narrow, the menu should not display until the menuButton is clicked*/
+#menu {
+    display: none;
+    width: 20ch;
+}
+#menuCloseButton {
+    display: "";
+}
+
+#menuCloseButton {
+    margin: 0;
+    padding: 0;
+    padding-top: 3px;
+    padding-left: 3px;
+}
+
+#menuChoiceList {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+#menuChoiceList > li > div > a {
+    color: black;
+}
+.choice {
+    /* background-color: red; */
+    text-align: center;
+    font-size: 2ch;
+    margin-top: 0.5ch;
+}
+.choice:hover {
+    background-color: yellow;
+}
