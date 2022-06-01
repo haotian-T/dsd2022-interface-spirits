@@ -70,7 +70,9 @@ function activateDevice() {
                         $("#batteryVal").text(data["battery"]);
                         $("#chargingStatus").text(data["charging"]);
                         $("#currentAlgorithm").text(data["algorithm"]["display"]);
-                        $("#predictedPose").text(data["prediction"]);
+                        if (data["prediction"] !== "") {
+                            $("#predictedPose").text(data["prediction"]);
+                        }
         
                         if($.cookie("deviceStatus") == undefined) {
                             $.cookie("deviceStatus", "Connected", {expires: 7});
