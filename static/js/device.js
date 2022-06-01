@@ -29,7 +29,9 @@ function activateDevice() {
                     $("#batteryVal").text(data["battery"]);
                     $("#chargingStatus").text(data["charging"]);
                     $("#currentAlgorithm").text(data["algorithm"]["display"]);
-                    $("#predictedPose").text(data["prediction"]);
+                    if (data["prediction"] !== "") {
+                        $("#predictedPose").text(data["prediction"]);
+                    }
     
                     $.cookie("deviceStatus", "Connected", {expires: 7});
                     $.cookie("deviceID", data["id"], {expires: 7});
